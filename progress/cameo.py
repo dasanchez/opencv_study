@@ -10,6 +10,7 @@ class Cameo(object):
     def run(self):
         """ Run the main loop."""
         self._windowManager.createWindow()
+        print("Window created")
         while self._windowManager.isWindowCreated:
             self._captureManager.enterFrame()
             frame = self._captureManager.frame
