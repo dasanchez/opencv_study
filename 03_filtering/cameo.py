@@ -1,4 +1,5 @@
 import cv2
+import filters
 from managers import WindowManager, CaptureManager
 
 class Cameo(object):
@@ -6,6 +7,7 @@ class Cameo(object):
     def __init__(self):
         self._windowManager = WindowManager('Cameo',self.onKeypress)
         self._captureManager = CaptureManager(cv2.VideoCapture(1),self._windowManager,True)
+        self._curveFilter = filters.BGRPortraCurveFilter()
 
     def run(self):
         """ Run the main loop."""
@@ -15,8 +17,20 @@ class Cameo(object):
             self._captureManager.enterFrame()
             frame = self._captureManager.frame
 
-            # TODO: Filtering (Chapter 3)
-
+            # TODO: Track faces (Chapter 4)
+            # Basic sharpen:
+            #sharpFilter = filters.SharpenFilter()
+            #sharpFilter.apply(frame,frame)
+            # Basic edge finding:
+            #edgesFilter = filters.FindEdgesFilter()
+            #edgesFilter.apply(frame,frame)
+            # Basic recoloring:
+            #filters.recolorRC(frame,frame)
+            # Advanced colour curves:
+            self._curveFilter.apply(frame,frame)
+            # Advanced edge strokes:
+            filters.strokeEdges(frame, frame)
+            
             self._captureManager.exitFrame()
             self._windowManager.processEvents()
 
